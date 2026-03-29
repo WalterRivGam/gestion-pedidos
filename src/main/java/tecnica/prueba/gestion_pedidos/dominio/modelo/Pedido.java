@@ -18,4 +18,5 @@ public class Pedido {
     private Estado estado;
     private boolean requiereRefrigeracion;
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

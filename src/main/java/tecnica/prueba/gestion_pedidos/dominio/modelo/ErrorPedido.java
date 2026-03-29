@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ErrorFila {
+public class ErrorPedido {
     private int numeroLinea;
-    private TipoError motivo;
+    private TipoError tipoError;
+    private String motivo;
 }

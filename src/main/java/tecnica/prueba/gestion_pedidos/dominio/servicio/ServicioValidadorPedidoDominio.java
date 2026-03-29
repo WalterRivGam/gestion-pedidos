@@ -14,7 +14,7 @@ public class ServicioValidadorPedidoDominio {
 
     public void validar(Pedido pedido) {
 
-        // valida número de pedido
+        // valida número de pedido sea alfanumérico
         String numeroPedido = pedido.getNumeroPedido();
         boolean numeroPedidoValido = numeroPedido != null && numeroPedido.matches("^[a-zA-Z0-9]+$");
         if(!numeroPedidoValido) {

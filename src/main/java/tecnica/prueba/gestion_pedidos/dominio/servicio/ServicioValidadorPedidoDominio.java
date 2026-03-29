@@ -1,7 +1,6 @@
 package tecnica.prueba.gestion_pedidos.dominio.servicio;
 
 import tecnica.prueba.gestion_pedidos.dominio.excepcion.ExcepcionValidacionPedido;
-import tecnica.prueba.gestion_pedidos.dominio.modelo.Estado;
 import tecnica.prueba.gestion_pedidos.dominio.modelo.Pedido;
 import tecnica.prueba.gestion_pedidos.dominio.modelo.TipoError;
 

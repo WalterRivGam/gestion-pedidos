@@ -2,12 +2,13 @@ package tecnica.prueba.gestion_pedidos.aplicacion.servicio;
 
 import tecnica.prueba.gestion_pedidos.aplicacion.puerto.entrada.PuertoCargaPedidos;
 import tecnica.prueba.gestion_pedidos.aplicacion.puerto.salida.PuertoIdempotencia;
-import tecnica.prueba.gestion_pedidos.aplicacion.puerto.salida.PuertoProcesarArchivo;
+import tecnica.prueba.gestion_pedidos.aplicacion.puerto.salida.PuertoArchivo;
 import tecnica.prueba.gestion_pedidos.dominio.excepcion.ExcepcionValidacionPedido;
 import tecnica.prueba.gestion_pedidos.dominio.modelo.ErrorPedido;
 import tecnica.prueba.gestion_pedidos.dominio.modelo.Pedido;
 import tecnica.prueba.gestion_pedidos.dominio.modelo.ResumenCarga;
 import tecnica.prueba.gestion_pedidos.dominio.modelo.TipoError;
+import tecnica.prueba.gestion_pedidos.dominio.servicio.ServicioValidadorPedidoDominio;
 import tecnica.prueba.gestion_pedidos.infraestructura.dto.FilaCruda;
 import tecnica.prueba.gestion_pedidos.infraestructura.mapper.PedidoMapper;
 
@@ -19,11 +20,12 @@ import java.util.List;
 public class ServicioCargaPedidos implements PuertoCargaPedidos {
 
     PuertoIdempotencia puertoIdempotencia;
-    PuertoProcesarArchivo puertoProcesarArchivo;
+    PuertoArchivo puertoArchivo;
+    ServicioValidadorPedidoDominio validadorDominio = new ServicioValidadorPedidoDominio();
 
-    public ServicioCargaPedidos(PuertoIdempotencia puertoIdempotencia, PuertoProcesarArchivo puertoProcesarArchivo) {
+    public ServicioCargaPedidos(PuertoIdempotencia puertoIdempotencia, PuertoArchivo puertoArchivo) {
         this.puertoIdempotencia = puertoIdempotencia;
-        this.puertoProcesarArchivo = puertoProcesarArchivo;
+        this.puertoArchivo = puertoArchivo;
     }
 
     @Override
@@ -34,11 +36,15 @@ public class ServicioCargaPedidos implements PuertoCargaPedidos {
 
         List<Pedido> lotePedidosEnMemoria = new ArrayList<>(tamanioLote);
 
-        puertoProcesarArchivo.procesarArchivo(archivo, (FilaCruda filaCruda, Integer numFila) -> {
+        puertoArchivo.procesarArchivo(archivo, (FilaCruda filaCruda, Integer numFila) -> {
             try {
                 resumenCarga.incrementarTotalProcesados();
 
                 Pedido pedido = PedidoMapper.aDominio(filaCruda);
+
+                validadorDominio.validar(pedido);
+
+
 
 
             } catch (DateTimeParseException e) {

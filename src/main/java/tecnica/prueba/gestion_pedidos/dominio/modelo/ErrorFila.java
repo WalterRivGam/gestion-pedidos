@@ -1,12 +1,11 @@
 package tecnica.prueba.gestion_pedidos.dominio.modelo;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class Cliente {
-    private String id;
-    private boolean activo;
+public class ErrorFila {
+    private int numeroLinea;
+    private TipoError motivo;
 }

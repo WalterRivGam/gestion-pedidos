@@ -24,7 +24,6 @@ public class ServicioValidadorPedidoDominioTest {
         pedido = new Pedido();
         pedido.setNumeroPedido("P001");
         pedido.setFechaEntrega(fechaHoy);
-        pedido.setEstado("PENDIENTE");
     }
 
     @Test
@@ -49,12 +48,4 @@ public class ServicioValidadorPedidoDominioTest {
                 .withMessage(TipoError.FECHA_INVALIDA.toString());
     }
 
-    @Test
-    void dado_estadoInvalido_cuando_seValidaPedido_entonces_lanzaExcepcion() {
-        pedido.setEstado("ENDIENTE");
-
-        assertThatExceptionOfType(ExcepcionValidacionPedido.class).isThrownBy(() -> validador.validar(pedido))
-                .withMessage(TipoError.ESTADO_INVALIDO.toString());
-
-    }
 }

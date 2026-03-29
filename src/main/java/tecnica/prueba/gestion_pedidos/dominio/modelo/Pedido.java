@@ -15,7 +15,7 @@ public class Pedido {
     private String clienteId;
     private String zonaId;
     private LocalDate fechaEntrega;
-    private String estado;
+    private Estado estado;
     private boolean requiereRefrigeracion;
     private LocalDateTime createdAt;
 }

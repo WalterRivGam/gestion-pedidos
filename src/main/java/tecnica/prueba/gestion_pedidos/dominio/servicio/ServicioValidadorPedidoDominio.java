@@ -28,21 +28,6 @@ public class ServicioValidadorPedidoDominio {
             throw new ExcepcionValidacionPedido(TipoError.FECHA_INVALIDA);
         }
 
-        // valida estado
-        String estadoPedido = pedido.getEstado();
-        boolean estadoValido = false;
-        if(estadoPedido != null) {
-            estadoPedido = estadoPedido.trim().toUpperCase();
-            for (Estado estado : Estado.values()) {
-                if (estado.toString().equalsIgnoreCase(estadoPedido)) {
-                    estadoValido = true;
-                    break;
-                }
-            }
-        }
-        if(!estadoValido) {
-            throw new ExcepcionValidacionPedido(TipoError.ESTADO_INVALIDO);
-        }
     }
 
 }

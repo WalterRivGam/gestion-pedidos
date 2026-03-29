@@ -7,7 +7,7 @@ import tecnica.prueba.gestion_pedidos.dominio.modelo.Pedido;
 import tecnica.prueba.gestion_pedidos.dominio.servicio.ServicioValidadorPedidoDominio;
 
 @SpringBootTest
-class GestionPedidosApplicationTests {
+class GestionPedidosApplicationTest {
 
 	private ServicioValidadorPedidoDominio validador;
 

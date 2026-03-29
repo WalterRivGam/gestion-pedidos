@@ -15,18 +15,18 @@ public class ResumenCarga {
     private int guardados;
     private int conError;
     private List<ErrorFila> errores;
-    private Map<TipoError, ErrorAgrupado>  erroresAgrupados;
+    private Map<TipoError, EstadisticasError>  erroresAgrupados;
 
     public void agruparErrores() {
         erroresAgrupados = new HashMap<>();
 
         for(TipoError tipoError: TipoError.values()) {
-            erroresAgrupados.put(tipoError, new ErrorAgrupado(0, new ArrayList<>()));
+            erroresAgrupados.put(tipoError, new EstadisticasError(0, new ArrayList<>()));
         }
         for(ErrorFila errorFila: errores) {
-            ErrorAgrupado errorAgrupado = erroresAgrupados.get(errorFila.getMotivo());
-            errorAgrupado.setTotal(errorAgrupado.getTotal() + 1);
-            errorAgrupado.getNumerosDeLinea().add(errorFila.getNumeroLinea());
+            EstadisticasError estadisticasError = erroresAgrupados.get(errorFila.getMotivo());
+            estadisticasError.setTotal(estadisticasError.getTotal() + 1);
+            estadisticasError.getNumerosDeLinea().add(errorFila.getNumeroLinea());
         }
     }
 }

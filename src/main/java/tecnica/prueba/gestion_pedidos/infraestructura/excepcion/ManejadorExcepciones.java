@@ -10,10 +10,20 @@ import tecnica.prueba.gestion_pedidos.dominio.modelo.TipoError;
 
 @RestControllerAdvice
 public class ManejadorExcepciones {
+
     @ExceptionHandler(ExcepcionErrorArchivo.class)
     public ResponseEntity<ResumenCarga> excepcionErrorArchivo(ExcepcionErrorArchivo e) {
         ResumenCarga resumenCarga = new ResumenCarga();
         resumenCarga.agregarError(new ErrorPedido(e.getNumLinea(), TipoError.ERROR_LECTURA_ARCHIVO, e.getMessage()));
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resumenCarga);
+    }
+
+    @ExceptionHandler(ExcepcionSolicitud.class)
+    public ResponseEntity<ResumenCarga> excepcionSolicitud(ExcepcionSolicitud e) {
+        ResumenCarga resumenCarga = new ResumenCarga();
+        resumenCarga.agregarError(new ErrorPedido(-1, e.getTipoError(), e.getMessage()));
+
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resumenCarga);
     }
 }

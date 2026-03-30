@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tecnica.prueba.gestion_pedidos.aplicacion.puerto.entrada.PuertoCargaPedidos;
+import tecnica.prueba.gestion_pedidos.aplicacion.puerto.salida.PuertoIdempotencia;
 import tecnica.prueba.gestion_pedidos.dominio.modelo.ResumenCarga;
 import tecnica.prueba.gestion_pedidos.infraestructura.excepcion.ExcepcionErrorArchivo;
 
@@ -22,9 +23,11 @@ public class ControladorPedido {
     private int tamanioLote;
 
     private final PuertoCargaPedidos puertoCargaPedidos;
+    private final PuertoIdempotencia puertoIdempotencia;
 
-    public ControladorPedido(PuertoCargaPedidos puertoCargaPedidos) {
+    public ControladorPedido(PuertoCargaPedidos puertoCargaPedidos, PuertoIdempotencia puertoIdempotencia) {
         this.puertoCargaPedidos = puertoCargaPedidos;
+        this.puertoIdempotencia = puertoIdempotencia;
     }
 
     @PostMapping(value = "/cargar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -38,6 +41,8 @@ public class ControladorPedido {
         } catch (IOException e) {
             throw new ExcepcionErrorArchivo("Excepción I/O al leer el archivo o al obtener su hash");
         }
+
+        puertoIdempotencia.verificarNoExistencia(idempotencyKey, hash);
 
         ResumenCarga resumenCarga = puertoCargaPedidos.cargarPedidos(inputStream, idempotencyKey, hash, tamanioLote);
 

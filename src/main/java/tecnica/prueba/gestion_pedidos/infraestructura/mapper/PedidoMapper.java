@@ -4,26 +4,38 @@ import tecnica.prueba.gestion_pedidos.dominio.excepcion.ExcepcionValidacionPedid
 import tecnica.prueba.gestion_pedidos.dominio.modelo.Estado;
 import tecnica.prueba.gestion_pedidos.dominio.modelo.Pedido;
 import tecnica.prueba.gestion_pedidos.dominio.modelo.TipoError;
-import tecnica.prueba.gestion_pedidos.infraestructura.dto.FilaCruda;
+import tecnica.prueba.gestion_pedidos.infraestructura.dto.PedidoSinValidar;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
 public class PedidoMapper {
-    public static Pedido aDominio(FilaCruda filaCruda) {
+    public static Pedido aDominio(PedidoSinValidar pedidoSinValidar) {
         Pedido pedido = new Pedido();
         pedido.setId(UUID.randomUUID());
-        pedido.setNumeroPedido(filaCruda.getNumeroPedido());
-        pedido.setClienteId(filaCruda.getClienteId());
-        pedido.setZonaId(filaCruda.getZonaEntrega());
-        pedido.setFechaEntrega(LocalDate.parse(filaCruda.getFechaEntrega()));
-        pedido.setEstado(Estado.valueOf(filaCruda.getEstado()));
-        String requiereRefrigeracion = filaCruda.getRequiereRefrigeracion().trim().toLowerCase();
+        pedido.setNumeroPedido(pedidoSinValidar.getNumeroPedido());
+        pedido.setClienteId(pedidoSinValidar.getClienteId());
+        pedido.setZonaId(pedidoSinValidar.getZonaEntrega());
+        pedido.setFechaEntrega(LocalDate.parse(pedidoSinValidar.getFechaEntrega()));
+        pedido.setEstado(Estado.valueOf(pedidoSinValidar.getEstado()));
+        String requiereRefrigeracion = pedidoSinValidar.getRequiereRefrigeracion().trim().toLowerCase();
         if (requiereRefrigeracion.equals("true") || requiereRefrigeracion.equals("false")) {
             pedido.setRequiereRefrigeracion(Boolean.parseBoolean(requiereRefrigeracion));
         } else {
             throw new ExcepcionValidacionPedido(TipoError.REQUIERE_REFRIGERACION_INVALIDO);
         }
         return pedido;
+    }
+
+    public static PedidoSinValidar aPedidoSinValidar(String[] columnas) {
+        PedidoSinValidar pedidoSinValidar = new PedidoSinValidar();
+        pedidoSinValidar.setNumeroPedido(columnas[0]);
+        pedidoSinValidar.setClienteId(columnas[1]);
+        pedidoSinValidar.setFechaEntrega(columnas[2]);
+        pedidoSinValidar.setEstado((columnas[3]));
+        pedidoSinValidar.setZonaEntrega(columnas[4]);
+        pedidoSinValidar.setRequiereRefrigeracion(columnas[5]);
+
+        return pedidoSinValidar;
     }
 }

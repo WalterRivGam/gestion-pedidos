@@ -13,7 +13,7 @@ public class ManejadorExcepciones {
     @ExceptionHandler(ExcepcionErrorArchivo.class)
     public ResponseEntity<ResumenCarga> excepcionErrorArchivo(ExcepcionErrorArchivo e) {
         ResumenCarga resumenCarga = new ResumenCarga();
-        resumenCarga.agregarError(new ErrorPedido(-1, TipoError.ERROR_ARCHIVO, e.getMessage()));
+        resumenCarga.agregarError(new ErrorPedido(e.getNumLinea(), TipoError.ERROR_LECTURA_ARCHIVO, e.getMessage()));
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resumenCarga);
     }
 }

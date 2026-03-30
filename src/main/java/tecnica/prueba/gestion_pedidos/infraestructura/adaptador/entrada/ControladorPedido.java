@@ -40,7 +40,7 @@ public class ControladorPedido {
             inputStream = file.getInputStream();
             hash = DigestUtils.sha256Hex(inputStream);
         } catch (IOException e) {
-            throw new ExcepcionErrorArchivo(e.getMessage());
+            throw new ExcepcionErrorArchivo("Excepción I/O al leer el archivo o al obtener su hash");
         }
 
         ResumenCarga resumenCarga = puertoCargaPedidos.cargarPedidos(inputStream, idempotencyKey, hash, tamanioLote);

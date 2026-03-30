@@ -9,7 +9,7 @@ import tecnica.prueba.gestion_pedidos.dominio.modelo.Pedido;
 import tecnica.prueba.gestion_pedidos.dominio.modelo.ResumenCarga;
 import tecnica.prueba.gestion_pedidos.dominio.modelo.TipoError;
 import tecnica.prueba.gestion_pedidos.dominio.servicio.ServicioValidadorPedidoDominio;
-import tecnica.prueba.gestion_pedidos.infraestructura.dto.FilaCruda;
+import tecnica.prueba.gestion_pedidos.infraestructura.dto.PedidoSinValidar;
 import tecnica.prueba.gestion_pedidos.infraestructura.mapper.PedidoMapper;
 
 import java.io.InputStream;
@@ -48,11 +48,9 @@ public class ServicioCargaPedidos implements PuertoCargaPedidos {
 
         int[] filaFinDeLote = {0};
 
-        puertoArchivo.procesarArchivo(archivo, (FilaCruda filaCruda, Integer numFila) -> {
+        puertoArchivo.procesarArchivo(archivo, resumenCarga, (PedidoSinValidar pedidoSinValidar, Integer numFila) -> {
             try {
-                resumenCarga.incrementarTotalProcesados();
-
-                Pedido pedido = PedidoMapper.aDominio(filaCruda);
+                Pedido pedido = PedidoMapper.aDominio(pedidoSinValidar);
 
                 validadorDominio.validar(pedido);
 

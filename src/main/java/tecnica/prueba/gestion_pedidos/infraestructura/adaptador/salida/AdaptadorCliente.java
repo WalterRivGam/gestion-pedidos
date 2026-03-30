@@ -7,7 +7,7 @@ import tecnica.prueba.gestion_pedidos.dominio.modelo.Cliente;
 import java.util.Optional;
 
 @Component
-public class AdaptdorCliente implements PuertoCliente {
+public class AdaptadorCliente implements PuertoCliente {
     @Override
     public Optional<Cliente> buscarClientePorId(String id) {
         return Optional.empty();

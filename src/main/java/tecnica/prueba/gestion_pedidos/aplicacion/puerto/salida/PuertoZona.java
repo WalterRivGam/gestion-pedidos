@@ -5,5 +5,5 @@ import tecnica.prueba.gestion_pedidos.dominio.modelo.Zona;
 import java.util.Optional;
 
 public interface PuertoZona {
-    Optional<Zona> buscarPorId(String zonaId);
+    Optional<Zona> buscarZonaPorId(String zonaId);
 }

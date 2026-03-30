@@ -13,7 +13,7 @@ public class ResumenCarga {
     private int guardados;
     private int conError;
     private List<ErrorPedido> errores;
-    private Map<TipoError, EstadisticasError>  erroresAgrupados;
+    private Map<TipoError, EstadisticasError> erroresAgrupados;
 
     public ResumenCarga() {
         errores = new ArrayList<>();
@@ -22,10 +22,10 @@ public class ResumenCarga {
 
     public void agruparErrores() {
 
-        for(TipoError tipoError: TipoError.values()) {
+        for (TipoError tipoError : TipoError.values()) {
             erroresAgrupados.put(tipoError, new EstadisticasError(0, new ArrayList<>()));
         }
-        for(ErrorPedido errorFila: errores) {
+        for (ErrorPedido errorFila : errores) {
             EstadisticasError estadisticasError = erroresAgrupados.get(errorFila.getTipoError());
             estadisticasError.setTotal(estadisticasError.getTotal() + 1);
             estadisticasError.getNumerosDeLinea().add(errorFila.getNumeroLinea());
@@ -36,8 +36,12 @@ public class ResumenCarga {
         totalProcesados += 1;
     }
 
-    public void incrementarConError() {
-        conError += 1;
+    public void incrementarConError(int numConError) {
+        conError += numConError;
+    }
+
+    public void incrementarGuardados(int numGuardados) {
+        guardados += numGuardados;
     }
 
     public void agregarError(ErrorPedido errorFila) {

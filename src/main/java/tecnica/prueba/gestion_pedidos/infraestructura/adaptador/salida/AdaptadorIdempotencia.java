@@ -3,11 +3,8 @@ package tecnica.prueba.gestion_pedidos.infraestructura.adaptador.salida;
 import org.springframework.stereotype.Component;
 import tecnica.prueba.gestion_pedidos.aplicacion.puerto.salida.PuertoIdempotencia;
 import tecnica.prueba.gestion_pedidos.dominio.modelo.TipoError;
-import tecnica.prueba.gestion_pedidos.infraestructura.entidad.EntidadIdempotencia;
 import tecnica.prueba.gestion_pedidos.infraestructura.excepcion.ExcepcionSolicitud;
 import tecnica.prueba.gestion_pedidos.infraestructura.repositorio.RepositorioIdempotencia;
-
-import java.util.List;
 
 @Component
 public class AdaptadorIdempotencia implements PuertoIdempotencia {

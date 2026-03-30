@@ -5,11 +5,13 @@ import tecnica.prueba.gestion_pedidos.dominio.modelo.Estado;
 import tecnica.prueba.gestion_pedidos.dominio.modelo.Pedido;
 import tecnica.prueba.gestion_pedidos.dominio.modelo.TipoError;
 import tecnica.prueba.gestion_pedidos.infraestructura.dto.PedidoSinValidar;
+import tecnica.prueba.gestion_pedidos.infraestructura.entidad.EntidadPedido;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
 public class PedidoMapper {
+
     public static Pedido aDominio(PedidoSinValidar pedidoSinValidar) {
         Pedido pedido = new Pedido();
         pedido.setId(UUID.randomUUID());
@@ -25,6 +27,20 @@ public class PedidoMapper {
             throw new ExcepcionValidacionPedido(TipoError.REQUIERE_REFRIGERACION_INVALIDO);
         }
         return pedido;
+    }
+
+    public static EntidadPedido aEntidad(Pedido pedido) {
+        EntidadPedido entidadPedido = new EntidadPedido();
+        entidadPedido.setId(pedido.getId());
+        entidadPedido.setNumeroPedido(pedido.getNumeroPedido());
+        entidadPedido.setClienteId(pedido.getClienteId());
+        entidadPedido.setZonaId(pedido.getZonaId());
+        entidadPedido.setFechaEntrega(pedido.getFechaEntrega());
+        entidadPedido.setEstado(pedido.getEstado());
+        entidadPedido.setRequiereRefrigeracion(pedido.isRequiereRefrigeracion());
+        entidadPedido.setCreatedAt(pedido.getCreatedAt());
+        entidadPedido.setUpdatedAt(pedido.getUpdatedAt());
+        return entidadPedido;
     }
 
     public static PedidoSinValidar aPedidoSinValidar(String[] columnas) {

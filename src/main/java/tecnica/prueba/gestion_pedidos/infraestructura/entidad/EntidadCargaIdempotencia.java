@@ -6,12 +6,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Table(name = "cargas_idempotencia")
 @Data
-public class EntidadIdempotencia {
+public class EntidadCargaIdempotencia {
     @Id
     @Column(name = "id")
     private UUID id;
@@ -22,4 +23,6 @@ public class EntidadIdempotencia {
     @Column(name = "archivo_hash")
     private String hashArchivo;
 
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 }

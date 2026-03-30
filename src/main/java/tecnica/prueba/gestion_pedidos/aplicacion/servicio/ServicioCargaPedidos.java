@@ -79,11 +79,11 @@ public class ServicioCargaPedidos implements PuertoCargaPedidos {
                 }
             } catch (DateTimeParseException e) {
                 resumenCarga.incrementarConError(1);
-                resumenCarga.agregarError(new ErrorPedido(numFila, TipoError.FECHA_INVALIDA, "FECHA_INVALIDA"));
+                resumenCarga.agregarError(new ErrorPedido(numFila, TipoError.FECHA_INVALIDA, "Fecha inválida"));
             } catch (IllegalArgumentException e) {
                 resumenCarga.incrementarConError(1);
                 resumenCarga
-                        .agregarError(new ErrorPedido(numFila, TipoError.ESTADO_INVALIDO, "ESTADO_INVALIDA"));
+                        .agregarError(new ErrorPedido(numFila, TipoError.ESTADO_INVALIDO, "Estado inválido"));
             } catch (ExcepcionValidacionPedido e) {
                 resumenCarga.incrementarConError(1);
                 resumenCarga.agregarError(new ErrorPedido(numFila, TipoError.valueOf(e.getMessage()), e.getMessage()));

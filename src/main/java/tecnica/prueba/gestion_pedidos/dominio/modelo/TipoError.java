@@ -11,5 +11,6 @@ public enum TipoError {
     CLIENTE_INVALIDO,
     ZONA_INVALIDA,
     LOTE_NO_GUARDADO,
+    ERROR_ARCHIVO,
     OTRO
 }

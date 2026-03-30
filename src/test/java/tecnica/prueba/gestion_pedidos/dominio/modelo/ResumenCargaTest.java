@@ -11,11 +11,11 @@ public class ResumenCargaTest {
     void dado_errores_cuando_agrupaErrores_entonces_erroresAgrupados() {
         ResumenCarga resumenCarga = new ResumenCarga();
         List<ErrorPedido> errores = new ArrayList<>();
-        errores.add(new ErrorPedido(7, TipoError.FECHA_INVALIDA, "FECHA_INVALIDA"));
-        errores.add(new ErrorPedido(5, TipoError.ESTADO_INVALIDO, "ESTADO_INVALIDO"));
-        errores.add(new ErrorPedido(3, TipoError.FECHA_INVALIDA, "FECHA_INVALIDA"));
-        errores.add(new ErrorPedido(8, TipoError.ESTADO_INVALIDO, "ESTADO_INVALIDO"));
-        errores.add(new ErrorPedido(1, TipoError.FECHA_INVALIDA, "FECHA_INVALIDA"));
+        errores.add(new ErrorPedido(7, TipoError.FECHA_INVALIDA, "Fecha inválida"));
+        errores.add(new ErrorPedido(5, TipoError.ESTADO_INVALIDO, "Estado inválido"));
+        errores.add(new ErrorPedido(3, TipoError.FECHA_INVALIDA, "Fecha inválida"));
+        errores.add(new ErrorPedido(8, TipoError.ESTADO_INVALIDO, "Estado inválido"));
+        errores.add(new ErrorPedido(1, TipoError.FECHA_INVALIDA, "Fecha inválida"));
         resumenCarga.setErrores(errores);
 
         resumenCarga.agruparErrores();

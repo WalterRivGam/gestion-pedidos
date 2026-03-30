@@ -23,3 +23,7 @@ spring:
   flyway:
     enabled: true
     baseline-on-migrate: true
+
+pedidos:
+  tamanio:
+    lote: 500

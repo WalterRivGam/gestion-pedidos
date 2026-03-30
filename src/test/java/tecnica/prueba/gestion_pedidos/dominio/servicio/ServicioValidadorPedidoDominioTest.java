@@ -40,9 +40,25 @@ public class ServicioValidadorPedidoDominioTest {
     }
 
     @Test
+    void dado_numeroPedidoNull_cuando_seValidaPedido_entonces_lanzaExcepcion() {
+        pedido.setNumeroPedido(null);
+
+        assertThatExceptionOfType(ExcepcionValidacionPedido.class).isThrownBy(() -> validador.validar(pedido))
+                .withMessage(TipoError.NUMERO_PEDIDO_INVALIDO.toString());
+    }
+
+    @Test
     void dado_fechaEntregaDeAyer_cuando_seValidaPedido_entonces_lanzaExcepcion() {;
         LocalDate fechaAyer = fechaHoy.minusDays(1);
         pedido.setFechaEntrega(fechaAyer);
+
+        assertThatExceptionOfType(ExcepcionValidacionPedido.class).isThrownBy(() -> validador.validar(pedido))
+                .withMessage(TipoError.FECHA_INVALIDA.toString());
+    }
+
+    @Test
+    void dado_fechaEntregaNull_cuando_seValidaPedido_entonces_lanzaExcepcion() {;
+        pedido.setFechaEntrega(null);
 
         assertThatExceptionOfType(ExcepcionValidacionPedido.class).isThrownBy(() -> validador.validar(pedido))
                 .withMessage(TipoError.FECHA_INVALIDA.toString());

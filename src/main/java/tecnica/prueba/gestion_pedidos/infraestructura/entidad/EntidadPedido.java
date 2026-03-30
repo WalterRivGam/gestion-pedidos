@@ -1,9 +1,6 @@
 package tecnica.prueba.gestion_pedidos.infraestructura.entidad;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import tecnica.prueba.gestion_pedidos.dominio.modelo.Estado;
 
@@ -31,6 +28,7 @@ public class EntidadPedido {
     @Column(name = "fecha_entrega")
     private LocalDate fechaEntrega;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "estado")
     private Estado estado;
 

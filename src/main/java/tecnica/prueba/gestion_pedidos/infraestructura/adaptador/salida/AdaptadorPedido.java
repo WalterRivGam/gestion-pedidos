@@ -1,6 +1,7 @@
 package tecnica.prueba.gestion_pedidos.infraestructura.adaptador.salida;
 
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Component;
 import tecnica.prueba.gestion_pedidos.aplicacion.puerto.salida.PuertoPedido;
 import tecnica.prueba.gestion_pedidos.dominio.modelo.Pedido;
@@ -21,6 +22,7 @@ public class AdaptadorPedido implements PuertoPedido {
     }
 
     @Override
+    @Transactional
     public void guardarLote(List<Pedido> pedidos) {
         List<EntidadPedido> lotePedidos = pedidos.stream().map(PedidoMapper::aEntidad).toList();
 

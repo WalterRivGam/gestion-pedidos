@@ -13,6 +13,8 @@ import tecnica.prueba.gestion_pedidos.infraestructura.dto.PedidoSinValidar;
 import tecnica.prueba.gestion_pedidos.infraestructura.mapper.PedidoMapper;
 
 import java.io.InputStream;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +62,8 @@ public class ServicioCargaPedidos implements PuertoCargaPedidos {
                 puertoZona.buscarZonaPorId(pedido.getZonaId())
                         .orElseThrow(() -> new ExcepcionValidacionPedido(TipoError.ZONA_INVALIDA));
 
+                pedido.setCreatedAt(LocalDateTime.now(ZoneId.of("America/Lima")));
+                pedido.setUpdatedAt(LocalDateTime.now(ZoneId.of("America/Lima")));
                 lotePedidosEnMemoria.add(pedido);
 
                 if (lotePedidosEnMemoria.size() == tamanioLote) {

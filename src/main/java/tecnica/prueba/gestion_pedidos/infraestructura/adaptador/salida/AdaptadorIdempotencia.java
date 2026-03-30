@@ -2,8 +2,10 @@ package tecnica.prueba.gestion_pedidos.infraestructura.adaptador.salida;
 
 import org.springframework.stereotype.Component;
 import tecnica.prueba.gestion_pedidos.aplicacion.puerto.salida.PuertoIdempotencia;
+import tecnica.prueba.gestion_pedidos.dominio.modelo.CargaIdempotencia;
 import tecnica.prueba.gestion_pedidos.dominio.modelo.TipoError;
 import tecnica.prueba.gestion_pedidos.infraestructura.excepcion.ExcepcionSolicitud;
+import tecnica.prueba.gestion_pedidos.infraestructura.mapper.CargaIdempotenciaMapper;
 import tecnica.prueba.gestion_pedidos.infraestructura.repositorio.RepositorioIdempotencia;
 
 @Component
@@ -29,5 +31,10 @@ public class AdaptadorIdempotencia implements PuertoIdempotencia {
             throw new ExcepcionSolicitud("Intento de procesar archivo ya procesado con otra idempotency key.",
                     TipoError.ARCHIVO_DUPLICADO);
         }
+    }
+
+    @Override
+    public void guardar(CargaIdempotencia cargaIdempotencia) {
+        repositorioIdempotencia.save(CargaIdempotenciaMapper.aEntidad(cargaIdempotencia));
     }
 }

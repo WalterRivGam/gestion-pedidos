@@ -1,4 +1,4 @@
-package tecnica.prueba.gestion_pedidos.infraestructura.adaptador.entrada.excepcion;
+package tecnica.prueba.gestion_pedidos.infraestructura.excepcion;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

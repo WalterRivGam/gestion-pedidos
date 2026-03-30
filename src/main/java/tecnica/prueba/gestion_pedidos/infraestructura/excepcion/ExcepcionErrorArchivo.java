@@ -1,4 +1,4 @@
-package tecnica.prueba.gestion_pedidos.infraestructura.adaptador.entrada.excepcion;
+package tecnica.prueba.gestion_pedidos.infraestructura.excepcion;
 
 import lombok.Getter;
 

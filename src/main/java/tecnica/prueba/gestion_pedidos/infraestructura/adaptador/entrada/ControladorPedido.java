@@ -3,17 +3,13 @@ package tecnica.prueba.gestion_pedidos.infraestructura.adaptador.entrada;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tecnica.prueba.gestion_pedidos.aplicacion.puerto.entrada.PuertoCargaPedidos;
-import tecnica.prueba.gestion_pedidos.aplicacion.servicio.ServicioCargaPedidos;
-import tecnica.prueba.gestion_pedidos.dominio.modelo.ErrorPedido;
 import tecnica.prueba.gestion_pedidos.dominio.modelo.ResumenCarga;
-import tecnica.prueba.gestion_pedidos.dominio.modelo.TipoError;
-import tecnica.prueba.gestion_pedidos.infraestructura.adaptador.entrada.excepcion.ExcepcionErrorArchivo;
+import tecnica.prueba.gestion_pedidos.infraestructura.excepcion.ExcepcionErrorArchivo;
 
 import java.io.IOException;
 import java.io.InputStream;

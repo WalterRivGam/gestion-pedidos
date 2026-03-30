@@ -5,7 +5,7 @@ import tecnica.prueba.gestion_pedidos.aplicacion.puerto.salida.PuertoArchivo;
 import tecnica.prueba.gestion_pedidos.dominio.modelo.ErrorPedido;
 import tecnica.prueba.gestion_pedidos.dominio.modelo.ResumenCarga;
 import tecnica.prueba.gestion_pedidos.dominio.modelo.TipoError;
-import tecnica.prueba.gestion_pedidos.infraestructura.adaptador.entrada.excepcion.ExcepcionErrorArchivo;
+import tecnica.prueba.gestion_pedidos.infraestructura.excepcion.ExcepcionErrorArchivo;
 import tecnica.prueba.gestion_pedidos.infraestructura.dto.PedidoSinValidar;
 import tecnica.prueba.gestion_pedidos.infraestructura.mapper.PedidoMapper;
 

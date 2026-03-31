@@ -1,5 +1,8 @@
 package tecnica.prueba.gestion_pedidos.infraestructura.adaptador.entrada;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -21,6 +24,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/pedidos")
+@Tag(name = "Carga de pedidos", description = "Endpoints para la carga de pedidos")
 public class ControladorPedido {
 
     @Value("${pedidos.tamanio.lote:500}")
@@ -34,9 +38,14 @@ public class ControladorPedido {
         this.puertoIdempotencia = puertoIdempotencia;
     }
 
+    @Operation(summary = "Carga de pedidos", description = "Carga pedidos desde un archivo CSV, los valida y guarda")
     @PostMapping(value = "/cargar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ResumenCarga> cargarPedidos(@RequestHeader("Idempotency-Key") String idempotencyKey,
-                                                      @RequestPart("file") MultipartFile file) {
+    public ResponseEntity<ResumenCarga> cargarPedidos(
+            @Parameter(description = "Clave de idempotencia para evitar solicitudes duplicadas")
+            @RequestHeader("Idempotency-Key") String idempotencyKey,
+
+            @Parameter(description = "Archivo CSV con la lista de pedidos")
+            @RequestPart("file") MultipartFile file) {
         InputStream inputStream;
         String hash;
         try {

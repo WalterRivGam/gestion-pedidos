@@ -1,5 +1,8 @@
 package tecnica.prueba.gestion_pedidos.dominio.modelo;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "Tipo de error")
 public enum TipoError {
     NUMERO_PEDIDO_INVALIDO,
     FECHA_INVALIDA,

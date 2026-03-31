@@ -9,5 +9,5 @@ import java.util.Set;
 public interface PuertoZona {
     Optional<Zona> buscarZonaPorId(String zonaId);
 
-    List<String> obtenerZonasExistentes(Set<String> loteIdsZona);
+    List<Zona> obtenerZonasExistentes(Set<String> loteIdsZona);
 }

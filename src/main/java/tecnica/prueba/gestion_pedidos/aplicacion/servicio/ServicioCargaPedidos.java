@@ -4,10 +4,7 @@ import tecnica.prueba.gestion_pedidos.aplicacion.puerto.entrada.PuertoCargaPedid
 import tecnica.prueba.gestion_pedidos.aplicacion.puerto.salida.*;
 import tecnica.prueba.gestion_pedidos.dominio.excepcion.ExcepcionLoteNoGuardado;
 import tecnica.prueba.gestion_pedidos.dominio.excepcion.ExcepcionValidacionPedido;
-import tecnica.prueba.gestion_pedidos.dominio.modelo.ErrorPedido;
-import tecnica.prueba.gestion_pedidos.dominio.modelo.Pedido;
-import tecnica.prueba.gestion_pedidos.dominio.modelo.ResumenCarga;
-import tecnica.prueba.gestion_pedidos.dominio.modelo.TipoError;
+import tecnica.prueba.gestion_pedidos.dominio.modelo.*;
 import tecnica.prueba.gestion_pedidos.dominio.servicio.ServicioValidadorPedidoDominio;
 import tecnica.prueba.gestion_pedidos.infraestructura.dto.PedidoSinValidar;
 import tecnica.prueba.gestion_pedidos.infraestructura.mapper.PedidoMapper;
@@ -69,22 +66,33 @@ public class ServicioCargaPedidos implements PuertoCargaPedidos {
                 if (lotePedidosEnMemoria.size() == tamanioLote) {
 
                     List<String> idsClientesExistentes = puertoCliente.obtenerClientesExistentes(loteIdsCLiente);
-                    List<String> idsZonasExistentes = puertoZona.obtenerZonasExistentes(loteIdsZona);
+                    List<Zona> zonasExistentes = puertoZona.obtenerZonasExistentes(loteIdsZona);
+                    List<String> idsZonasExistentes = zonasExistentes.stream().map(Zona::getId).collect(Collectors.toList());
 
                     List<Pedido> lotePedidosValidos = lotePedidosEnMemoria.stream().filter(pedidoEnMem -> {
                         String clienteId = pedidoEnMem.getClienteId();
                         String zonaId = pedidoEnMem.getZonaId();
+                        boolean requiereRefrigeracion = pedidoEnMem.isRequiereRefrigeracion();
 
-                        if(!idsClientesExistentes.contains(clienteId)) {
+                        if (!idsClientesExistentes.contains(clienteId)) {
                             resumenCarga.incrementarConError(1);
                             resumenCarga.agregarError(new ErrorPedido(-1, TipoError.CLIENTE_NO_ENCONTRADO,
                                     "Cliente con id " + clienteId + " no encontrado."));
                         }
 
-                        if(!idsZonasExistentes.contains(zonaId)) {
+                        if (!idsZonasExistentes.contains(zonaId)) {
                             resumenCarga.incrementarConError(1);
                             resumenCarga.agregarError(new ErrorPedido(-1, TipoError.ZONA_INVALIDA,
                                     "Zona con id " + zonaId + " no encontrada."));
+                        } else {
+                            Zona zona = zonasExistentes.stream().
+                                    filter(zon -> zon.getId().equals(zonaId)).findFirst().orElse(null);
+                            if (zona != null && requiereRefrigeracion && !zona.isSoporteRefrigeracion()) {
+                                resumenCarga.incrementarConError(1);
+                                resumenCarga.agregarError(new ErrorPedido(-1,
+                                        TipoError.REQUIERE_REFRIGERACION_INVALIDO,
+                                        "Pedido requiere refrigeración pero zona no tiene soporte refrigeración."));
+                            }
                         }
 
                         return (idsClientesExistentes.contains(clienteId) && idsZonasExistentes.contains(zonaId));
@@ -124,22 +132,33 @@ public class ServicioCargaPedidos implements PuertoCargaPedidos {
         if (!lotePedidosEnMemoria.isEmpty()) {
             try {
                 List<String> idsClientesExistentes = puertoCliente.obtenerClientesExistentes(loteIdsCLiente);
-                List<String> idsZonasExistentes = puertoZona.obtenerZonasExistentes(loteIdsZona);
+                List<Zona> zonasExistentes = puertoZona.obtenerZonasExistentes(loteIdsZona);
+                List<String> idsZonasExistentes = zonasExistentes.stream().map(Zona::getId).collect(Collectors.toList());
 
                 List<Pedido> lotePedidosValidos = lotePedidosEnMemoria.stream().filter(pedidoEnMem -> {
                     String clienteId = pedidoEnMem.getClienteId();
                     String zonaId = pedidoEnMem.getZonaId();
+                    boolean requiereRefrigeracion = pedidoEnMem.isRequiereRefrigeracion();
 
-                    if(!idsClientesExistentes.contains(clienteId)) {
+                    if (!idsClientesExistentes.contains(clienteId)) {
                         resumenCarga.incrementarConError(1);
                         resumenCarga.agregarError(new ErrorPedido(-1, TipoError.CLIENTE_NO_ENCONTRADO,
                                 "Cliente con id " + clienteId + " no encontrado."));
                     }
 
-                    if(!idsZonasExistentes.contains(zonaId)) {
+                    if (!idsZonasExistentes.contains(zonaId)) {
                         resumenCarga.incrementarConError(1);
                         resumenCarga.agregarError(new ErrorPedido(-1, TipoError.ZONA_INVALIDA,
                                 "Zona con id " + zonaId + " no encontrada."));
+                    } else {
+                        Zona zona = zonasExistentes.stream().
+                                filter(zon -> zon.getId().equals(zonaId)).findFirst().orElse(null);
+                        if (zona != null && requiereRefrigeracion && !zona.isSoporteRefrigeracion()) {
+                            resumenCarga.incrementarConError(1);
+                            resumenCarga.agregarError(new ErrorPedido(-1,
+                                    TipoError.REQUIERE_REFRIGERACION_INVALIDO,
+                                    "Pedido requiere refrigeración pero zona no tiene soporte refrigeración."));
+                        }
                     }
 
                     return (idsClientesExistentes.contains(clienteId) && idsZonasExistentes.contains(zonaId));

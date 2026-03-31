@@ -26,8 +26,8 @@ public class AdaptadorZona implements PuertoZona {
     }
 
     @Override
-    public List<String> obtenerZonasExistentes(Set<String> loteIdsZona) {
+    public List<Zona> obtenerZonasExistentes(Set<String> loteIdsZona) {
         return respositorioZona.findByIdIn(loteIdsZona).stream()
-                .map(EntidadZona::getId).collect(Collectors.toList());
+                .map(ZonaMapper::aDominio).collect(Collectors.toList());
     }
 }

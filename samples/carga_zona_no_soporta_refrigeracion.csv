@@ -1,0 +1,4 @@
+numeroPedido,clienteId,fechaEntrega,estado,zonaEntrega,requiereRefrigeracion
+P0012,CLI-400,2026-04-27,PENDIENTE,ZONA5,false
+P0013,CLI-200,2026-04-10,CONFIRMADO,ZONA2,true
+P0014,CLI-300,2026-04-04,PENDIENTE,ZONA1,false

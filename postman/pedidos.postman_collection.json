@@ -1,0 +1,339 @@
+{
+  "info": {
+    "_postman_id": "4d0d53e6-0772-45bb-b65d-2d97c04c7c78",
+    "name": "pedidos",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "20001140"
+  },
+  "item": [
+    {
+      "name": "1 Carga inicial exitosa",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3VhcmlvIiwibmFtZSI6ImFkbWluIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMiwiZXhwIjoxOTAwMDAwMDAwfQ.3YBrqlsrbcLwxjlKGvMWyDC5QOilcl9nbM5siJFXVCA",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Idempotency-Key",
+            "value": "4fa282fe-6f26-4f33-8a32-447c6d8a1953",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "uuid": "6b64c5e8-2e4e-4436-a002-bd379cc68168",
+              "src": "/C:/Users/Walter/Documents/Dinet/Prueba tecnica/carga_inicial.csv"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:8080/pedidos/cargar",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "pedidos",
+            "cargar"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2 Carga duplicada",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3VhcmlvIiwibmFtZSI6ImFkbWluIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMiwiZXhwIjoxOTAwMDAwMDAwfQ.3YBrqlsrbcLwxjlKGvMWyDC5QOilcl9nbM5siJFXVCA",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Idempotency-Key",
+            "value": "4fa282fe-6f26-4f33-8a32-447c6d8a1953",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "uuid": "6b64c5e8-2e4e-4436-a002-bd379cc68168",
+              "src": "/C:/Users/Walter/Documents/Dinet/Prueba tecnica/carga_inicial.csv"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:8080/pedidos/cargar",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "pedidos",
+            "cargar"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "3 Carga cliente no encontrado",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3VhcmlvIiwibmFtZSI6ImFkbWluIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMiwiZXhwIjoxOTAwMDAwMDAwfQ.3YBrqlsrbcLwxjlKGvMWyDC5QOilcl9nbM5siJFXVCA",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Idempotency-Key",
+            "value": "4fa282fe-6f26-4f33-8a32-447c6d8a1917",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "uuid": "6b64c5e8-2e4e-4436-a002-bd379cc68168",
+              "src": "/C:/Users/Walter/Documents/Dinet/Prueba tecnica/carga_cliente_no_encontrado.csv"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:8080/pedidos/cargar",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "pedidos",
+            "cargar"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "4 Carga zona no encontrada",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3VhcmlvIiwibmFtZSI6ImFkbWluIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMiwiZXhwIjoxOTAwMDAwMDAwfQ.3YBrqlsrbcLwxjlKGvMWyDC5QOilcl9nbM5siJFXVCA",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Idempotency-Key",
+            "value": "4fa282fe-6f26-4f33-8a32-447c6d8a1978",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "uuid": "6b64c5e8-2e4e-4436-a002-bd379cc68168",
+              "src": "/C:/Users/Walter/Documents/Dinet/Prueba tecnica/carga_zona_no_existente.csv"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:8080/pedidos/cargar",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "pedidos",
+            "cargar"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "5 Carga zona no soporta refrigeracion",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3VhcmlvIiwibmFtZSI6ImFkbWluIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMiwiZXhwIjoxOTAwMDAwMDAwfQ.3YBrqlsrbcLwxjlKGvMWyDC5QOilcl9nbM5siJFXVCA",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Idempotency-Key",
+            "value": "4fa282fe-6f26-4f33-8a32-447c6d8a1999",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "uuid": "6b64c5e8-2e4e-4436-a002-bd379cc68168",
+              "src": "/C:/Users/Walter/Documents/Dinet/Prueba tecnica/carga_zona_no_soporta_refrigeracion.csv"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:8080/pedidos/cargar",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "pedidos",
+            "cargar"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "6 Carga fecha pasada",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3VhcmlvIiwibmFtZSI6ImFkbWluIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMiwiZXhwIjoxOTAwMDAwMDAwfQ.3YBrqlsrbcLwxjlKGvMWyDC5QOilcl9nbM5siJFXVCA",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Idempotency-Key",
+            "value": "4fa282fe-6f26-4f33-8a32-447c6d8a1998",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "uuid": "6b64c5e8-2e4e-4436-a002-bd379cc68168",
+              "src": "/C:/Users/Walter/Documents/Dinet/Prueba tecnica/carga_fecha_pasada.csv"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:8080/pedidos/cargar",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "pedidos",
+            "cargar"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "7 Carga estado invalido",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3VhcmlvIiwibmFtZSI6ImFkbWluIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMiwiZXhwIjoxOTAwMDAwMDAwfQ.3YBrqlsrbcLwxjlKGvMWyDC5QOilcl9nbM5siJFXVCA",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Idempotency-Key",
+            "value": "4fa282fe-6f26-4f33-8a32-447c6d8a1997",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "uuid": "6b64c5e8-2e4e-4436-a002-bd379cc68168",
+              "src": "/C:/Users/Walter/Documents/Dinet/Prueba tecnica/carga_estado_invalido.csv"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:8080/pedidos/cargar",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "pedidos",
+            "cargar"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

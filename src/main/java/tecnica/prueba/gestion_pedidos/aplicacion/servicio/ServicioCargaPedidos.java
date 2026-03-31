@@ -70,17 +70,20 @@ public class ServicioCargaPedidos implements PuertoCargaPedidos {
                     List<String> idsZonasExistentes = zonasExistentes.stream().map(Zona::getId).collect(Collectors.toList());
 
                     List<Pedido> lotePedidosValidos = lotePedidosEnMemoria.stream().filter(pedidoEnMem -> {
+                        boolean pedidoValido = true;
                         String clienteId = pedidoEnMem.getClienteId();
                         String zonaId = pedidoEnMem.getZonaId();
                         boolean requiereRefrigeracion = pedidoEnMem.isRequiereRefrigeracion();
 
                         if (!idsClientesExistentes.contains(clienteId)) {
+                            pedidoValido =false;
                             resumenCarga.incrementarConError(1);
                             resumenCarga.agregarError(new ErrorPedido(-1, TipoError.CLIENTE_NO_ENCONTRADO,
                                     "Cliente con id " + clienteId + " no encontrado."));
                         }
 
                         if (!idsZonasExistentes.contains(zonaId)) {
+                            pedidoValido =false;
                             resumenCarga.incrementarConError(1);
                             resumenCarga.agregarError(new ErrorPedido(-1, TipoError.ZONA_INVALIDA,
                                     "Zona con id " + zonaId + " no encontrada."));
@@ -88,14 +91,14 @@ public class ServicioCargaPedidos implements PuertoCargaPedidos {
                             Zona zona = zonasExistentes.stream().
                                     filter(zon -> zon.getId().equals(zonaId)).findFirst().orElse(null);
                             if (zona != null && requiereRefrigeracion && !zona.isSoporteRefrigeracion()) {
+                                pedidoValido =false;
                                 resumenCarga.incrementarConError(1);
                                 resumenCarga.agregarError(new ErrorPedido(-1,
-                                        TipoError.REQUIERE_REFRIGERACION_INVALIDO,
+                                        TipoError.CADENA_FRIO_NO_SOPORTADA,
                                         "Pedido requiere refrigeración pero zona no tiene soporte refrigeración."));
                             }
                         }
-
-                        return (idsClientesExistentes.contains(clienteId) && idsZonasExistentes.contains(zonaId));
+                        return pedidoValido;
                     }).collect(Collectors.toList());
 
                     filaFinDeLote[0] = numFila;
@@ -136,17 +139,20 @@ public class ServicioCargaPedidos implements PuertoCargaPedidos {
                 List<String> idsZonasExistentes = zonasExistentes.stream().map(Zona::getId).collect(Collectors.toList());
 
                 List<Pedido> lotePedidosValidos = lotePedidosEnMemoria.stream().filter(pedidoEnMem -> {
+                    boolean pedidoValido = true;
                     String clienteId = pedidoEnMem.getClienteId();
                     String zonaId = pedidoEnMem.getZonaId();
                     boolean requiereRefrigeracion = pedidoEnMem.isRequiereRefrigeracion();
 
                     if (!idsClientesExistentes.contains(clienteId)) {
+                        pedidoValido = false;
                         resumenCarga.incrementarConError(1);
                         resumenCarga.agregarError(new ErrorPedido(-1, TipoError.CLIENTE_NO_ENCONTRADO,
                                 "Cliente con id " + clienteId + " no encontrado."));
                     }
 
                     if (!idsZonasExistentes.contains(zonaId)) {
+                        pedidoValido = false;
                         resumenCarga.incrementarConError(1);
                         resumenCarga.agregarError(new ErrorPedido(-1, TipoError.ZONA_INVALIDA,
                                 "Zona con id " + zonaId + " no encontrada."));
@@ -154,14 +160,15 @@ public class ServicioCargaPedidos implements PuertoCargaPedidos {
                         Zona zona = zonasExistentes.stream().
                                 filter(zon -> zon.getId().equals(zonaId)).findFirst().orElse(null);
                         if (zona != null && requiereRefrigeracion && !zona.isSoporteRefrigeracion()) {
+                            pedidoValido = false;
                             resumenCarga.incrementarConError(1);
                             resumenCarga.agregarError(new ErrorPedido(-1,
-                                    TipoError.REQUIERE_REFRIGERACION_INVALIDO,
+                                    TipoError.CADENA_FRIO_NO_SOPORTADA,
                                     "Pedido requiere refrigeración pero zona no tiene soporte refrigeración."));
                         }
                     }
 
-                    return (idsClientesExistentes.contains(clienteId) && idsZonasExistentes.contains(zonaId));
+                    return pedidoValido;
                 }).collect(Collectors.toList());
 
                 puertoPedido.guardarLote(lotePedidosValidos);

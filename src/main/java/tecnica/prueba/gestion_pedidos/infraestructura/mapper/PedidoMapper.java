@@ -8,8 +8,6 @@ import tecnica.prueba.gestion_pedidos.infraestructura.dto.PedidoSinValidar;
 import tecnica.prueba.gestion_pedidos.infraestructura.entidad.EntidadPedido;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.UUID;
 
 public class PedidoMapper {
@@ -26,7 +24,7 @@ public class PedidoMapper {
         if (requiereRefrigeracion.equals("true") || requiereRefrigeracion.equals("false")) {
             pedido.setRequiereRefrigeracion(Boolean.parseBoolean(requiereRefrigeracion));
         } else {
-            throw new ExcepcionValidacionPedido(TipoError.REQUIERE_REFRIGERACION_INVALIDO);
+            throw new ExcepcionValidacionPedido(TipoError.CADENA_FRIO_NO_SOPORTADA);
         }
         return pedido;
     }

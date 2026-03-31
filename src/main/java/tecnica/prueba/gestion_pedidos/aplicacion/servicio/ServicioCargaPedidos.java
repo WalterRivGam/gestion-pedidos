@@ -17,7 +17,10 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ServicioCargaPedidos implements PuertoCargaPedidos {
 
@@ -41,12 +44,12 @@ public class ServicioCargaPedidos implements PuertoCargaPedidos {
     }
 
     @Override
-    public ResumenCarga cargarPedidos(InputStream archivo, String idempotencyKey, String archivoHash, int tamanioLote) {
+    public ResumenCarga cargarPedidos(InputStream archivo, int tamanioLote) {
         ResumenCarga resumenCarga = new ResumenCarga();
 
-        puertoIdempotencia.verificarNoExistencia(idempotencyKey, archivoHash);
-
         List<Pedido> lotePedidosEnMemoria = new ArrayList<>(tamanioLote);
+        Set<String> loteIdsCLiente = new HashSet<>();
+        Set<String> loteIdsZona = new HashSet<>();
 
         int[] filaFinDeLote = {0};
 
@@ -56,26 +59,34 @@ public class ServicioCargaPedidos implements PuertoCargaPedidos {
 
                 validadorDominio.validar(pedido);
 
-                puertoCliente.buscarClientePorId(pedido.getClienteId())
-                        .orElseThrow(() -> new ExcepcionValidacionPedido(TipoError.CLIENTE_INVALIDO));
-
-                puertoZona.buscarZonaPorId(pedido.getZonaId())
-                        .orElseThrow(() -> new ExcepcionValidacionPedido(TipoError.ZONA_INVALIDA));
+                loteIdsCLiente.add(pedido.getClienteId());
+                loteIdsZona.add(pedido.getZonaId());
 
                 pedido.setCreatedAt(LocalDateTime.now(ZoneId.of("America/Lima")));
                 pedido.setUpdatedAt(LocalDateTime.now(ZoneId.of("America/Lima")));
                 lotePedidosEnMemoria.add(pedido);
 
                 if (lotePedidosEnMemoria.size() == tamanioLote) {
+
+                    List<String> idsClientesExistentes = puertoCliente.obtenerClientesExistentes(loteIdsCLiente);
+                    List<String> idsZonasExistentes = puertoZona.obtenerZonasExistentes(loteIdsZona);
+
+                    List<Pedido> lotePedidosValidos = lotePedidosEnMemoria.stream().filter(pedidoEnMem -> {
+                        String clienteId = pedidoEnMem.getClienteId();
+                        String zonaId = pedidoEnMem.getZonaId();
+                        return (idsClientesExistentes.contains(clienteId) && idsZonasExistentes.contains(zonaId));
+                    }).collect(Collectors.toList());
+
                     filaFinDeLote[0] = numFila;
                     try {
-                        puertoPedido.guardarLote(lotePedidosEnMemoria);
-                        resumenCarga.incrementarGuardados(tamanioLote);
+                        puertoPedido.guardarLote(lotePedidosValidos);
+                        resumenCarga.incrementarGuardados(lotePedidosValidos.size());
                     } catch (Exception e) {
                         String mensajeError = String.format("No se guardó lote. Fila inicial: %d. Fila final: %d",
                                 numFila - tamanioLote + 1, numFila);
                         throw new ExcepcionLoteNoGuardado(mensajeError);
                     } finally {
+                        lotePedidosValidos.clear();
                         lotePedidosEnMemoria.clear();
                     }
                 }
@@ -99,8 +110,17 @@ public class ServicioCargaPedidos implements PuertoCargaPedidos {
 
         if (!lotePedidosEnMemoria.isEmpty()) {
             try {
-                puertoPedido.guardarLote(lotePedidosEnMemoria);
-                resumenCarga.incrementarGuardados(lotePedidosEnMemoria.size());
+                List<String> idsClientesExistentes = puertoCliente.obtenerClientesExistentes(loteIdsCLiente);
+                List<String> idsZonasExistentes = puertoZona.obtenerZonasExistentes(loteIdsZona);
+
+                List<Pedido> lotePedidosValidos = lotePedidosEnMemoria.stream().filter(pedidoEnMem -> {
+                    String clienteId = pedidoEnMem.getClienteId();
+                    String zonaId = pedidoEnMem.getZonaId();
+                    return (idsClientesExistentes.contains(clienteId) && idsZonasExistentes.contains(zonaId));
+                }).collect(Collectors.toList());
+
+                puertoPedido.guardarLote(lotePedidosValidos);
+                resumenCarga.incrementarGuardados(lotePedidosValidos.size());
             } catch (Exception e) {
                 resumenCarga.incrementarConError(lotePedidosEnMemoria.size());
                 String mensajeError = String.format("No se guardó lote. Fila inicial: %d. Fila final: %d",

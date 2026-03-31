@@ -55,7 +55,7 @@ public class ControladorPedido {
         cargaIdempotencia.setCreatedAt(LocalDateTime.now(ZoneId.of("America/Lima")));
         puertoIdempotencia.guardar(cargaIdempotencia);
 
-        ResumenCarga resumenCarga = puertoCargaPedidos.cargarPedidos(inputStream, idempotencyKey, hash, tamanioLote);
+        ResumenCarga resumenCarga = puertoCargaPedidos.cargarPedidos(inputStream, tamanioLote);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(resumenCarga);
 

@@ -27,3 +27,6 @@ spring:
 pedidos:
   tamanio:
     lote: 500
+
+jwt:
+  secret: "FidbOr1WZVSsMkaa4qRDyBHmrLeknhB+uIwoUNIS7Oc="

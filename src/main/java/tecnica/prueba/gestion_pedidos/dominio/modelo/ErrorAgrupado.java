@@ -8,8 +8,11 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-@Schema(description = "Estadísticas asociadas a un tipo de error")
-public class EstadisticasError {
+@Schema(description = "Errores agrupados por tipo")
+public class ErrorAgrupado {
+    @Schema(description = "Tipo de error")
+    private TipoError tipoError;
+
     @Schema(description = "Total de errores de un mismo tipo", example = "3")
     private int total;
 

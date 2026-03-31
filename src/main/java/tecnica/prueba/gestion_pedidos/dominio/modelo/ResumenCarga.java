@@ -4,9 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Data
 @Schema(description = "Objeto que representa un resumen del resultado de procesar el archivo CSV con los pedidos")
@@ -22,26 +20,31 @@ public class ResumenCarga {
     private int conError;
 
     @Schema(description = "Lista de errores")
-    private List<ErrorPedido> errores;
+    private List<ErrorPedido> erroresPedidos;
 
     @Schema(description = "Errores agrupados por tipo")
-    private Map<TipoError, EstadisticasError> erroresAgrupados;
+    private List<ErrorAgrupado> erroresAgrupados;
 
     public ResumenCarga() {
-        errores = new ArrayList<>();
-        erroresAgrupados = new HashMap<>();
+        erroresPedidos = new ArrayList<>();
+        erroresAgrupados = new ArrayList<>();
     }
 
     public void agruparErrores() {
-
-        for (TipoError tipoError : TipoError.values()) {
-            erroresAgrupados.put(tipoError, new EstadisticasError(0, new ArrayList<>()));
-        }
-        for (ErrorPedido errorFila : errores) {
-            EstadisticasError estadisticasError = erroresAgrupados.get(errorFila.getTipoError());
-            estadisticasError.setTotal(estadisticasError.getTotal() + 1);
-            estadisticasError.getNumerosDeLinea().add(errorFila.getNumeroLinea());
-        }
+        erroresPedidos.forEach(errorPedido -> {
+            TipoError tipoError = errorPedido.getTipoError();
+            ErrorAgrupado errorAgrupado = erroresAgrupados.stream()
+                    .filter(errorAgrup -> errorAgrup.getTipoError() == tipoError)
+                    .findFirst().orElse(null);
+            if(errorAgrupado == null) {
+                List<Integer> numerosDeLinea = new ArrayList<>();
+                numerosDeLinea.add(errorPedido.getNumeroLinea());
+                erroresAgrupados.add(new ErrorAgrupado(errorPedido.getTipoError(), 1, numerosDeLinea));
+            } else {
+                errorAgrupado.setTotal(errorAgrupado.getTotal() + 1);
+                errorAgrupado.getNumerosDeLinea().add(errorPedido.getNumeroLinea());
+            }
+        });
     }
 
     public void incrementarTotalProcesados() {
@@ -57,6 +60,6 @@ public class ResumenCarga {
     }
 
     public void agregarError(ErrorPedido errorFila) {
-        errores.add(errorFila);
+        erroresPedidos.add(errorFila);
     }
 }

@@ -74,6 +74,19 @@ public class ServicioCargaPedidos implements PuertoCargaPedidos {
                     List<Pedido> lotePedidosValidos = lotePedidosEnMemoria.stream().filter(pedidoEnMem -> {
                         String clienteId = pedidoEnMem.getClienteId();
                         String zonaId = pedidoEnMem.getZonaId();
+
+                        if(!idsClientesExistentes.contains(clienteId)) {
+                            resumenCarga.incrementarConError(1);
+                            resumenCarga.agregarError(new ErrorPedido(-1, TipoError.CLIENTE_NO_ENCONTRADO,
+                                    "Cliente con id " + clienteId + " no encontrado."));
+                        }
+
+                        if(!idsZonasExistentes.contains(zonaId)) {
+                            resumenCarga.incrementarConError(1);
+                            resumenCarga.agregarError(new ErrorPedido(-1, TipoError.ZONA_INVALIDA,
+                                    "Zona con id " + zonaId + " no encontrada."));
+                        }
+
                         return (idsClientesExistentes.contains(clienteId) && idsZonasExistentes.contains(zonaId));
                     }).collect(Collectors.toList());
 
@@ -116,6 +129,19 @@ public class ServicioCargaPedidos implements PuertoCargaPedidos {
                 List<Pedido> lotePedidosValidos = lotePedidosEnMemoria.stream().filter(pedidoEnMem -> {
                     String clienteId = pedidoEnMem.getClienteId();
                     String zonaId = pedidoEnMem.getZonaId();
+
+                    if(!idsClientesExistentes.contains(clienteId)) {
+                        resumenCarga.incrementarConError(1);
+                        resumenCarga.agregarError(new ErrorPedido(-1, TipoError.CLIENTE_NO_ENCONTRADO,
+                                "Cliente con id " + clienteId + " no encontrado."));
+                    }
+
+                    if(!idsZonasExistentes.contains(zonaId)) {
+                        resumenCarga.incrementarConError(1);
+                        resumenCarga.agregarError(new ErrorPedido(-1, TipoError.ZONA_INVALIDA,
+                                "Zona con id " + zonaId + " no encontrada."));
+                    }
+
                     return (idsClientesExistentes.contains(clienteId) && idsZonasExistentes.contains(zonaId));
                 }).collect(Collectors.toList());
 

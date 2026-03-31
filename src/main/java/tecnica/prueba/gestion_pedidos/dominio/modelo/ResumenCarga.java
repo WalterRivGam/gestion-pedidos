@@ -1,5 +1,6 @@
 package tecnica.prueba.gestion_pedidos.dominio.modelo;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -8,11 +9,22 @@ import java.util.List;
 import java.util.Map;
 
 @Data
+@Schema(description = "Objeto que representa un resumen del resultado de procesar el archivo CSV con los pedidos")
 public class ResumenCarga {
+
+    @Schema(description = "Total de líneas procesadas sin incluir líneas en blanco o el encabezado", example = "500")
     private int totalProcesados;
+
+    @Schema(description = "Total de pedidos guardados", example = "495")
     private int guardados;
+
+    @Schema(description = "Total de pedidos con error", example = "5")
     private int conError;
+
+    @Schema(description = "Lista de errores")
     private List<ErrorPedido> errores;
+
+    @Schema(description = "Errores agrupados por tipo")
     private Map<TipoError, EstadisticasError> erroresAgrupados;
 
     public ResumenCarga() {
